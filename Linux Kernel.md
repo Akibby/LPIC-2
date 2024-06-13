@@ -104,4 +104,7 @@ The tool `dkms` can be used to build dynamic kernel modules
 ---
 # Monitoring the Kernel
 
-the folder `/proc` 
+The folder `/proc` is a pseudo folder that contains data about the folder
+    Example running `cat /proc/sys/kernel/version` will output what the Linux version is
+    This "file" isn't actually a file but it can return data from the Linux API
+    
