@@ -111,3 +111,10 @@ The `/proc` folder also contains all currently running processes, each in a fold
     Inside this folder more information can be found about the process like its `cwd` or the actual `exe` that is being run by it
     `cmdline` will who any command arguments being given
     `environ` contains al environment variables that the process is using
+Data from `/proc` is useful but it is typically more advantageous to access it via other commands
+    `uname -v` will output the kernel information
+    `uname -a` will give the kernel info along with more useful data
+    You can `/proc/modules` or just use `lsmod`
+In general items in the `/proc` folder cannot be edited but this is not always true
+    You generally don't want to edit `/proc` but in some cases it may be desirable
+    An example: 
