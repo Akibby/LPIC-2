@@ -74,5 +74,14 @@ Additional tools that may not be installed can be acquired with
 	Note that `libncurses5-dev` is optional
 To pull the kernel source code from the distro run `sudo apt-get source linux-image-unsigned$(uname -r)`
 To pull the official run `wget http://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.9.16.tar.xz` and modify the version and compression type in the command to whatever you want.
-The file `/boot/config-5.4.0-67.generic` (or the equivalent one for your version) modifications to your kernel can be made.
-	The kernel
+The kernel source uses the `.config` file for its config
+    The file `/boot/config-5.4.0-67.generic` (or the equivalent one for your version) modifications to your kernel can be made.
+    To make a new custom config file (if one doesn't already exist)
+        `make defconfig` - for a default .config file
+        `make xconfig` - launch a GUI tool to create a custom config
+        `make menuconfig` - uses the `libncurses` package to give you a text menu to create the config
+            `*` means it is built-in to the kernel and should be disabled if not needed
+            `M` are modules and will only be loaded if needed
+            Save when complete and you are done
+To build the kernel you can just run `make`
+    `make -j2` will allow you to instruct how many cores to use when building (2 in this case)
