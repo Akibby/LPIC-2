@@ -6,3 +6,10 @@ The initialization system being used can be found with the command `ps aux | hea
 The command `systemctl` will list all items that are being used by `systemd`
 For the list of official items `/lib/systemd/system/` used by your operating system
 Custom items are placed in `/etc/systemd/system/` so that they are not overwritten during an update
+Targets determine what the system wants to be doing
+    `/lib/systemd/system` contains the `*.target` files
+    they are text files that can be easily output with `cat` and viewed
+    The `default.target` is a symlink that is used during boot
+    Targets can be modified or read with `systemctl-set` or `systemctl-get`
+        Example: `sudo systemctl set-default multi-user.target` to change `default.target` to boot to a command line instead of GUI
+        
