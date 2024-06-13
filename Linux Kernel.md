@@ -104,3 +104,4 @@ The tool `dkms` can be used to build dynamic kernel modules
 ---
 # Monitoring the Kernel
 
+the folder `/proc` 
