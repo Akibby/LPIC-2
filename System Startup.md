@@ -12,4 +12,13 @@ Targets determine what the system wants to be doing
     The `default.target` is a symlink that is used during boot
     Targets can be modified or read with `systemctl-set` or `systemctl-get`
         Example: `sudo systemctl set-default multi-user.target` to change `default.target` to boot to a command line instead of GUI
-        
+Services can be configured to start at boot or just started to run
+    `sudo systemctl start apache2` will make apache run right away
+    `sudo systemctl enable apache2` will make apache run on startup
+    `sudo systemctl enable --now apache2` will enable it and start it right away
+Services can be customized
+    `/lib/systemd/system/apache2.service` could be modified to wait on another service before starting with the `After` key or modify its start command with `ExecStart` or many other changes can be made
+    This file will need to be placed in `/etc/systemd/system`
+
+---
+# Managing SysV init
