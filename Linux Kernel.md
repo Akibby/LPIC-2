@@ -59,4 +59,3 @@ Kernel modules will be named `*.ko`
 
 ---
 # Kernel Compilation
-I have edited this file
