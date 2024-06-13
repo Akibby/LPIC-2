@@ -117,4 +117,16 @@ Data from `/proc` is useful but it is typically more advantageous to access it v
     You can `/proc/modules` or just use `lsmod`
 In general items in the `/proc` folder cannot be edited but this is not always true
     You generally don't want to edit `/proc` but in some cases it may be desirable
-    An example: 
+    An example: The maximum amount of files allowed to be opened
+        `/proc/sys/fs/file-max` contains this value
+        `/proc/sys/fs/file-nr` contains how many files are currently open
+        `file-max` can be opened with an editor like vim and modified directly
+            Remember that a typo can cause a major error
+        `sys-ctl` is a tool that can be used to modify the kernel
+            `sudo sysctl fs.file-max` can be used to view the value
+            `sudo sysctl -w fs.file-max=2000000` would modify the value and will warn if there are any syntax errors and stop the write
+        These changes take effect immediately but WILL NOT persist after a reboot
+        To make these changes permanent a file needs added to `/etc/sysctl.d/`
+        These files are read in order
+            `sudoedit 00-custom-settings.conf` and write `fs.file-max=2000000` and now on reboot the max filesystem limit will stay
+            Note that just making the change here will require a reboot or a run of `sudo sysctl -p`
