@@ -1,4 +1,5 @@
 # Kernel Components
+
 Kernel connects the hardware to the software and manages access
 The kernel does not provide
 - GUI
@@ -35,6 +36,7 @@ Kernel modules can be found at `/lib/modules`
 
 ---
 # Kernel Modules
+
 `lsmod` will list all modules active on the system
 `modinfo {mod}` will give info about whatever module is given
 Kernel modules will be named `*.ko`
@@ -59,6 +61,7 @@ Kernel modules will be named `*.ko`
 
 ---
 # Kernel Compilation
+
 Do you need to compile a custom kernel?
 - Do you have special hardware that needs to be initialized before boot
 - Do you need to exclude modules
@@ -100,3 +103,4 @@ The tool `dkms` can be used to build dynamic kernel modules
 
 ---
 # Monitoring the Kernel
+
