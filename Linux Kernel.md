@@ -97,3 +97,6 @@ The tool `dkms` can be used to build dynamic kernel modules
     may need to be installed with `apt install dkms`
     `dkms build -m ena -V 1.1` or whatever module to build the custom module
     `dkms install -m ena -V 1.1` to install the same module
+
+---
+# Monitoring the Kernel

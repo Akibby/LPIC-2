@@ -1,0 +1,1 @@
+This is a collection of notes from a course on the LPIC-2 Linux Engineer certification.
