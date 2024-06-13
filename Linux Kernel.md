@@ -85,3 +85,15 @@ The kernel source uses the `.config` file for its config
             Save when complete and you are done
 To build the kernel you can just run `make`
     `make -j2` will allow you to instruct how many cores to use when building (2 in this case)
+    `make -j2 deb-pkg` will build Debian Linux packages that can be used to install (wasn't done in course but mentioned)
+    This build process will likely take 1+ hours
+To start using your custom kernel
+    If you have generated a `vmlinux` file you can copy it to `/boot` and tell GRUB to boot from it
+        You can also symlink it but it still needs to be moved to `/boot`
+    For Debian packages they can be installed via `apt`, `apt-get`, `dpkg` to install the local package
+As long as you are using the same hardware across devices you can copy this kernel to other devices and set it up for use there without recompiling
+The `initrd` may need to have its modules updated
+The tool `dkms` can be used to build dynamic kernel modules
+    may need to be installed with `apt install dkms`
+    `dkms build -m ena -V 1.1` or whatever module to build the custom module
+    `dkms install -m ena -V 1.1` to install the same module
