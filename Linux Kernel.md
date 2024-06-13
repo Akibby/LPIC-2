@@ -107,4 +107,7 @@ The tool `dkms` can be used to build dynamic kernel modules
 The folder `/proc` is a pseudo folder that contains data about the folder
     Example running `cat /proc/sys/kernel/version` will output what the Linux version is
     This "file" isn't actually a file but it can return data from the Linux API
-    
+The `/proc` folder also contains all currently running processes, each in a folder with the same name is their PID
+    Inside this folder more information can be found about the process like its `cwd` or the actual `exe` that is being run by it
+    `cmdline` will who any command arguments being given
+    `environ` contains al environment variables that the process is using
