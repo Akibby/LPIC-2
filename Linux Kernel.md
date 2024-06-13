@@ -67,10 +67,12 @@ Do you need to compile a custom kernel?
 You will have to recompile a custom kernel for all future updates. This is a permanent commitment.
 On Ubuntu to edit the kernel you need to modify `/etc/apt/sources.list` to allow it.
 	uncomment the lines with `deb-src` to see the source code items
-	`sudo apt-get build-dep linux linux-image$(uname -r)` this will install the required build dependencies, Linux tools and the latest Linux image
-	These tools will allow you to make basic modifications to the kernel
-	Additional tools that may not be installed can be acquired with
+`sudo apt-get build-dep linux linux-image$(uname -r)` this will install the required build dependencies, Linux tools and the latest Linux image
+These tools will allow you to make basic modifications to the kernel
+Additional tools that may not be installed can be acquired with
 	`sudo apt-get install build-essential lbncurses5-dev gcc libssl-dev grub2 bc bison flex libelf-dev fakeroot`
-		Note that `libncurses5-dev` is optional
-	To pull the kernel source code from the distro run `sudo apt-get source linux-image-unsigned$(uname -r)`
-	To pull the official run `wget http://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.9.16.tar.xz` and modify the version and compression type in the command to whatever you want.
+	Note that `libncurses5-dev` is optional
+To pull the kernel source code from the distro run `sudo apt-get source linux-image-unsigned$(uname -r)`
+To pull the official run `wget http://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.9.16.tar.xz` and modify the version and compression type in the command to whatever you want.
+The file `/boot/config-5.4.0-67.generic` (or the equivalent one for your version) modifications to your kernel can be made.
+	The kernel
