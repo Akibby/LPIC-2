@@ -22,3 +22,6 @@ Services can be customized
 
 ---
 # Managing SysV init
+SysV init just runs a script that looks for a `rc.sysinit` or `rc.local` (this isn't standardized but this is generally the case).
+SysV init does serial execution and if it hangs at one point all points afterwards will be delayed.
+SysV init is no longer common and replaced by systemd generally but is around in some older servers.
