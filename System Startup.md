@@ -45,3 +45,11 @@ The run level can be modified
         Etiquette is to check who is on the system with `who` and notify them
         `sudo init 3` will modify the run level to 3
         `tellinit` is an older command that would allow you to modify the run level on a timer
+SysV init can be made to run a service at boot
+- Can just be added to the `local` file for a given run level
+- `chkconfig` can be used to turn a service on/off which determines if it starts at boot
+    - `sudo chkconfig --list` will show the status of services across all run levels
+    - `sudo chkconfig --level 35 httpd on` would enable `httpd` for run levels 3 and 5 only
+    - This only modifies the status for future boots (doesn't apply right away)
+- `service` can be used to check the `status` of a service and `start`/`stop` it
+    - sometimes `service` is allowed to `restart` but this depends
