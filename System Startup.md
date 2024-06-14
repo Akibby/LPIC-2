@@ -22,6 +22,20 @@ Services can be customized
 
 ---
 # Managing SysV init
-SysV init just runs a script that looks for a `rc.sysinit` or `rc.local` (this isn't standardized but this is generally the case).
+SysV init just runs a script that looks for a `rc.sysinit` or `rc.local` (this isn't standardized but this 
+is generally the case).
+    in the course a centos6 VM has `rc.sysinit` and `rc.local` in `/etc/rc.d/`
 SysV init does serial execution and if it hangs at one point all points afterwards will be delayed.
 SysV init is no longer common and replaced by systemd generally but is around in some older servers.
+The folders `rcX.d` X=0-6 each correlate to scripts you would want to run in different scenarios or "run levels"
+- `rc0.d` - Scripts to run during shutdown
+- `rc1.d` - depends 
+- `rc2.d` - depends 
+- `rc3.d` -  multiuser mode
+- `rc4.d` - depends 
+- `rc5.d` -  GUI mode
+- `rc6.d` - Scripts to run during reboot
+To check what the run levels all do check the file `/etc/inittab`
+These scripts are run in alphabetical order
+    There will be a `Xlocal` that can be modified, other files would be overwritten during updates
+The command `who -r` will output the current run level
