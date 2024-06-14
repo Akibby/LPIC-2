@@ -39,3 +39,9 @@ To check what the run levels all do check the file `/etc/inittab`
 These scripts are run in alphabetical order
     There will be a `Xlocal` that can be modified, other files would be overwritten during updates
 The command `who -r` will output the current run level
+The run level can be modified
+    The `inittab` file can have the default level modified and then on reboot the new run level should be used
+    Run level can be changed without reboot though
+        Etiquette is to check who is on the system with `who` and notify them
+        `sudo init 3` will modify the run level to 3
+        `tellinit` is an older command that would allow you to modify the run level on a timer
