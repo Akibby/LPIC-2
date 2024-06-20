@@ -86,6 +86,7 @@ Recovering a drive by mounting it to a new system
 ---
 # Customizing the Initial RAM Disk
 This typically shouldn't need to be modified
+    If a piece of hardware needs to be accessible at boot and it isn't that would be a valid case
 The RAM disk version is typically tied to the kernel version
 The RAM disk can be found at `/boot/` typically `initrd.img` (sometimes `initramfs.img` on RHEL)
     The RAM disk is actually zipped with 2 different protocols, CPIO for the beginning microcode of the file and gzip for the end
@@ -94,3 +95,12 @@ Both Debian and RHEL will use `unmkinitramfs` can be used to extract the RAM dis
     The extracted items should include a `early/` folder that contains the microcode 
     The `main/` folder was zipped with `gzip` and contains the rest of the RAM disk
 The extracted items could be manually modified and recompressed but this is not ideal
+The modules used by the RAM Disk can be modified by editing `/etc/initramfs-tools/modules`
+The command `sudo update-initramfs` can be used to regenerate the RAM disk
+    the flag `sudo update-initramfs -u` will recreate the file in place
+    the flag `sudo update-initramfs -u -b ~/` will recreate the file and put it an a specified directory
+This new file still needs to be added to the GRUB config
+    The menu entry for your OS should be copied to a custom location and the `initrd` should be modified for the entry
+    Running `sudo update-grub` will rebuild GRUB and create the new boot option using the custom RAM disk
+
+---
