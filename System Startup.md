@@ -56,3 +56,41 @@ SysV init can be made to run a service at boot
 
 ---
 # System Recovery with GRUB
+GRUB config file typically found at `/boot/grub/grub.cfg`
+    This file should not be directly edited or they will be overwritten
+The folder `/etc/default/` is the where the main configuration file lives
+    If you wanted to edit the GRUB timeout timer you would modify the `grub` file here
+The folder `etc/grub.d/`is where the scripts to detect installed OS live
+   This is where you would add a custom OS to the boot selection or modify one 
+Modified config files need to be pushed to grub
+    `sudo update-grub` should rebuild the GRUB
+    Sometimes command is `update-grub2`
+    The command `grub-mkconfig` is sometimes available and has some useful custom flags
+GRUB can be reinstalled without harming the OS
+If you cannot boot to GRUB at all there are 2 common approaches to regain access to the system
+    Use a live CD (like Ubuntu installer) and boot to it from the BIOS. It will include its own GRUB
+    Disconnect your drive and put it in a system that is working. Use the working GRUB install to fix things
+       You should make sure to take note of a way to identify the drives
+       `lsblk -f` can give you the UUID of the drive that is working
+Recovering a drive by mounting it to a new system
+    On the working system run `lsblk -f` and make note of the UUID of your working drive
+    Once the new drive is connected it will need to be mounted
+        Create a mountpoint somewhere (`sudo mkdir /mnt/sdb2` in the lesson)
+        Mount the drive (`sudo mount /dev/sdb2 /mnt/sdb2`)
+    You should now be able to navigate to the drive and see the existing file system
+        Be careful about modifying things like this, you don't wanna break something
+    The command `sudo grub-install --root-directory=/mnt/sdb2 /dev/sdb` will install GRUB on the drive and recreate the configuration
+    You can now move the drive back to the other system and try to boot it again.
+        NOTE: There may be other issues with the drive and the failing GRUB could indicate a more widespread issue (like a dying hard drive)
+
+---
+# Customizing the Initial RAM Disk
+This typically shouldn't need to be modified
+The RAM disk version is typically tied to the kernel version
+The RAM disk can be found at `/boot/` typically `initrd.img` (sometimes `initramfs.img` on RHEL)
+    The RAM disk is actually zipped with 2 different protocols, CPIO for the beginning microcode of the file and gzip for the end
+On Debian systems the command `mkinitramfs` can be used to modify the RAM disk (on RHEL `mkinitrd`)
+Both Debian and RHEL will use `unmkinitramfs` can be used to extract the RAM disk file
+    The extracted items should include a `early/` folder that contains the microcode 
+    The `main/` folder was zipped with `gzip` and contains the rest of the RAM disk
+The extracted items could be manually modified and recompressed but this is not ideal
