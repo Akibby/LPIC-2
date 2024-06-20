@@ -53,3 +53,6 @@ SysV init can be made to run a service at boot
     - This only modifies the status for future boots (doesn't apply right away)
 - `service` can be used to check the `status` of a service and `start`/`stop` it
     - sometimes `service` is allowed to `restart` but this depends
+
+---
+# System Recovery with GRUB
