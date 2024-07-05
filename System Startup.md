@@ -104,3 +104,30 @@ This new file still needs to be added to the GRUB config
     Running `sudo update-grub` will rebuild GRUB and create the new boot option using the custom RAM disk
 
 ---
+# systemd Mount Units
+Why would you use Mount Units instead of fstab
+    Every mount point can have its own config file
+    You can set dependencies vs in fstab it just loads everything in the file
+Typically you would load a data disk with mount units
+Mount point - where the drive will be mounted
+Mount unit - the file that the mount will be configured in
+The file name of the mount unit should match the path
+    If you want to mount to `/home/akib/backup` file would be named `home-akib-backup.mount`
+The file will be written in `/etc/systemd/system/`
+File is written like
+```
+[Unit]
+Description=My backup drive
+[Mount]
+What=/dev/disk/by-uuid/youruuid
+Where=/home/akib/backup
+Type=ext4
+Options=default
+[Install]
+WantedBy=multi-user.target
+```
+Before you can test you must run
+    `sudo systemctl daemon-reload`
+    `sudo systemctl start mnt-backups.mount`
+To make it apply when you boot
+    `sudo systemctl enable mnt-backups.mount`
