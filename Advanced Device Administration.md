@@ -58,3 +58,29 @@ NVMe has a controller built in directly on the disk and because of this `hdparm`
 
 ---
 # iSCSI and SAN Storage
+#### Setting up a server as a iSCSI target
+`sudo apt install tgt`
+`sudo apt install --now tgt`
+`sudo vi /etc/tgt/conf.d/tgt.conf`
+```
+<target iqn.hostname:storage>
+  backing-store /dev/sdb
+  initiator-address 10.0.222.50 #This will restrict who can access the iscsi
+```
+`sudo systemctl restart tgt`
+note that a firewall may need to allow the traffic
+    `sudo ss -natp` will show what port iSCSI is using
+#### Setting up an iSCSI client
+`sudo apt install open-iscsi`
+`sudo iscsiadm -m discovery -t st -p 10.0.222.51` will check the specified IP for an iSCSI target
+`sudo vi /etc/iscsi/initiatorname.iscsi`
+add the following 
+```
+InitiatorName=iqn.hostname:storage
+```
+`sudo cd /etc/iscsi/nodes`
+In here the iSCSI node and its `default` config can be found
+    to automatically connect open `default` and modify `node.startup = automatic`
+    The `openiscsi` and `iscsid` service will need to be restarted
+        If there is an issue you may need to reboot the client, this is a software issue in iSCSI client
+`sudo iscsiadm -m session -o show` will show you if there is an active iSCSI session
