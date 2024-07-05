@@ -84,3 +84,24 @@ In here the iSCSI node and its `default` config can be found
     The `openiscsi` and `iscsid` service will need to be restarted
         If there is an issue you may need to reboot the client, this is a software issue in iSCSI client
 `sudo iscsiadm -m session -o show` will show you if there is an active iSCSI session
+
+---
+# Logical Volume Manager
+`sudo apt install lvm2`
+- Physical Volumes
+`sudo pvcreate /dev/sdb /dev/sdc /dev/sdd` will create a physical volume for each 
+`sudo pvdisplay` or `sudo pvs` will show info on the physical volumes
+- Volume Group
+`sudo vgcreate vg1 /dev/sdb /dev/sdc /dev/sdd` will create a volume group `vg1` with the listed volumes
+`sudo vgdisplay` or `sudo vgs` will show information on the volume groups
+- Logical Volume
+`sudo lvcreate -L 300G vg1 -n website`
+`sudo lvdisplay` or `sudo lvs` will show information on logical volumes
+
+Once the logical volume is created it is treated like any other disk.
+It will need to be formatted and mounted to be used
+    Note that the volume group created in the example will be at `/etc/dev/vg1/website`
+the LVM can be modified after creation to expand or shrink
+    `vgextend` can be used to add more physical volumes to a volume group
+    `lvresize` can be used to add more volume group space to the logical volume
+        Note that in order to actually use the added space a tool based on what formatting the lv is in
