@@ -30,3 +30,31 @@ To start using the disk
 These devices will need to be included in `/etc/fstab` to mount at boot
     `/dev/md0 /mnt/raid1 ext4 defaults 0 0`
     `/dev/md1 /mnt/raid5 ext4 defaults 0 0`
+
+---
+# Supporting IDE and SATA Disks
+It is extremely rare that these disks *need* to be configured
+The disks can be customized for performance needs though
+`sudo lshw` will show all hardware information
+    `sudo lshw -class disk` will only show disk information
+`hdparm` can be used to enable and configure disk features
+    `sudo apt install hdparm`
+`sudo hdparm -I /dev/sda` will show configuration info about the disk
+`sudo apt install smartmontools` will allow you to check SMART reports to see if a drive failure may happen soon
+    `sudo smartctl -i /dev/sda`
+    `sudo smartctl -t short /dev/sda` test can be "short" or "long" and will run in the background
+    `sudo smartctl -a /dev/sda` will show the results from the last test
+    
+---
+# Supporting Solid State Disks
+TRIM is a tool for SSDs that reduces the number of writes it has to do. This helps lengthen the life of the disk
+TRIM support and status can be found in the output of `sudo hdparm -I /dev/sda`
+`sudo fstrim -v /` will force TRIM to run and free up space (this shouldn't need to be run typically)
+NVMe has a controller built in directly on the disk and because of this `hdparm` can't be used on it since it works on SATA/IDE
+    NVMe doesn't typically support TRIM because of these changes but another tool on the disk should automatically manage it
+    `sudo apt install nvme-cli` can be used to manage an NVMe
+    `nvme --help`
+    `sudo nvme smart-log /dev/nvme0n1`
+
+---
+# iSCSI and SAN Storage
