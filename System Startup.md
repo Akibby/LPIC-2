@@ -131,3 +131,60 @@ Before you can test you must run
     `sudo systemctl start mnt-backups.mount`
 To make it apply when you boot
     `sudo systemctl enable mnt-backups.mount`
+
+---
+# Supporting Btrfs
+Btrfs has support for many different tools
+- RAID
+- LVM
+Btrfs isn't being widely used yet but will likely become common in the near future
+You may need to install the necessary tools to use btrfs
+    Ubuntu: `sudo apt install btrfs-progs`
+To initialize a filesystem
+    `sudo mkfs.btrfs /dev/sdb`
+    Note that you don't have to give a drive volume `sdb1` 
+    You can but it is optional
+    `sudo mount /dev/sdb/ /mnt/btrfs-demo`
+The command `sudo btfs filesystem show` will show details for all btrfs file systems
+#### RAID setup
+    `sudo mkfs.btrfs -m raid1 -d raid1 /dev/sdc /dev/sdd`
+        This will configure RAID1 for both the drive metadata (-m) and the disk data (-d)
+#### Subvolumes
+`sudo mount /dev/sdb /mnt/database`
+`sudo btrfs subvolume create /mnt/database/db`
+`sudo btrfs subvolume create /mnt/database/tl`
+To check if there are subvolumes
+    `sudo btrfs subvolume list -t /mnt/database` (-t does table output)
+#### Snapshots
+`sudo btrfs subvolume snapshot /mnt/database/db /mnt/database/snapshots/db20240705`
+    For real world use you may set a CRON job to run a command like the one above
+To access the snapshot you can just browse into the destination folder
+The files in the snapshot are hard linked back to the original
+Note that snapshots do not protect from hardware failures
+
+---
+# Working with Encrypted Storage
+LUKS encryption can easily encrypt during install of a Linux system
+To install and configure LUKS after install
+    `lsblk -f` will let you verify if the existing drives are already encrypted
+    a disk that has been previously used should be "shredded" after encrypting
+        `sudo shred -v --iterations=3 /dev/sdeX`
+        This will take several hours just to do 1 iteration
+        It will rewrite the disk with 0s
+    `sudo apt install cryptsetup-bin`
+    `sudo cryptsetup luksFormat /dev/sde1`
+        This will completely erase the disk (not shred though)
+    `sudo cryptsetup luksOpen /dev/sde1 storage` will allow you to create an alias for the volume
+    `sudo mkfs.ext4 /dev/mapper/storage` will format the volume as ext4
+        It is important to use an alias because the pointer in the mapper can change easily
+    `sudo mount /dev/mapper/storage /mnt/storage`
+To mount these encrypted filesystems in the future `/etc/crypttab` will need to be modified
+    You can just add the alias to automatically mount at boot (you will be prompted for a password for it)
+        `storage /dev/sde1`
+    If your boot drive is encrypted you could write the password into `/etc/crypttab`
+        `storage /dev/sde1 password123`
+    The device needs to be added to `/etc/fstab also`
+        `/dev/mapper/storage /mnt/storage ext4 defaults 0 0`
+If this is a shared computer additional keys will need to be generated for other users to encrypt/decrypt data
+    `sudo cryptsetup luksAddKey /dev/sde1`
+    `sudo cryptsetup luksRemoveKey /dev/sde1`
